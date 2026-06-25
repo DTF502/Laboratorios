@@ -11,7 +11,7 @@
 |--------|---------------|-----------------|-----------|
 | Alexander Cordero | Desenvolupador _back_ | — | 100% backend |
 | Adrián Marzo | Desenvolupador _front_ | — | 100% frontend |
-| Gaizka Medina | Desenvolupador _front_ y _back_ | — | 50% frontend, 50% backend |
+| Gaizka Medina | Desenvolupador _front_ | Desenvolupador _back_ | — | 50% frontend, 50% backend |
 | Diego Trujillo | Gestor de projecte | Desenvolupador _front_ | 60% gestió, 40% frontend |
 | Francesc Vinent | Desenvolupador _back_ | Gestor de projecte | 80% backend, 20% gestió |
 
