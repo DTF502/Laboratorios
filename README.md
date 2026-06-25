@@ -27,8 +27,8 @@ sportbook/
 
 | Membre | Rol |
 |--------|-----|
-| Alexander Cordero | Developer backend |
-| Adrián Marzo | Developer frontend |
-| Gaizka Medina | Developer full-stack |
-| Diego Trujillo | Project Manager / Developer frontend |
-| Francesc Vinent | Developer backend / Project Manager |
+| Alexander Cordero | Desenvolupador _back_ |
+| Adrián Marzo | Desenvolupador _front_ |
+| Gaizka Medina | Desenvolupador _front_ y _back_ |
+| Diego Trujillo | Gestor de projecte / Desenvolupador _front_ |
+| Francesc Vinent | Desenvolupador _back_ / Gestor de projecte |
