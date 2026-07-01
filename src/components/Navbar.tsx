@@ -45,7 +45,7 @@ export default function Navbar() {
           className={`${menuOpen ? 'flex' : 'hidden'} absolute left-0 right-0 top-16 flex-col gap-3 border-b border-slate-200 bg-white p-4 shadow-sm sm:static sm:flex sm:flex-row sm:items-center sm:border-0 sm:p-0 sm:shadow-none`}
         >
           <Link href="/" className="text-sm font-medium text-slate-600 hover:text-brand-700">
-            Inici
+            Pistes
           </Link>
 
           {loading ? (
