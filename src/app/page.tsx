@@ -1,55 +1,70 @@
-import Link from 'next/link'
+'use client'
+
+import { useState } from 'react'
+import CourtCard from '@/components/CourtCard'
+import Alert from '@/components/ui/Alert'
+import { useCourts } from '@/hooks/useCourts'
+import type { SportType } from '@/types'
+import { SPORT_LABELS, SPORT_TYPES } from '@/types'
+
+const FILTERS: Array<{ value: SportType | ''; label: string }> = [
+  { value: '', label: 'Totes' },
+  ...SPORT_TYPES.map((value) => ({ value, label: SPORT_LABELS[value] })),
+]
 
 export default function HomePage() {
+  const [sport, setSport] = useState<SportType | ''>('')
+  const { courts, loading, error } = useCourts(sport)
+
   return (
-    <section className="flex min-h-[calc(100vh-13rem)] items-center justify-center py-12">
-      <div className="max-w-3xl text-center">
-        <span className="inline-flex rounded-full bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700">
-          Reserva instal·lacions esportives
-        </span>
+    <div>
+      <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 to-brand-900 px-6 py-10 text-white sm:px-10">
+        <p className="text-sm font-semibold uppercase tracking-widest text-brand-100">Reserva esportiva en línia</p>
+        <h1 className="mt-3 max-w-2xl text-3xl font-extrabold tracking-tight sm:text-4xl">Troba pista. Tria hora. Juga.</h1>
+        <p className="mt-3 max-w-2xl text-brand-50">Explora les instal·lacions esportives disponibles i consulta tota la informació de cada pista.</p>
+      </section>
 
-        <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
-          Benvingut a SportBook
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-          Una plataforma per consultar instal·lacions esportives i gestionar les
-          teves reserves de manera ràpida i senzilla.
-        </p>
-
-        <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link href="/register" className="btn-primary px-6 py-3">
-            Crear compte
-          </Link>
-          <Link href="/login" className="btn-secondary px-6 py-3">
-            Iniciar sessió
-          </Link>
+      <section className="mt-9" aria-labelledby="courts-title">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 id="courts-title" className="text-2xl font-bold text-slate-900">Pistes disponibles</h2>
+            <p className="mt-1 text-sm text-slate-500">Filtra per esport i entra a una pista per consultar-ne els detalls.</p>
+          </div>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar per esport">
+            {FILTERS.map((filter) => (
+              <button
+                key={filter.value || 'all'}
+                type="button"
+                aria-pressed={sport === filter.value}
+                onClick={() => setSport(filter.value)}
+                className={`rounded-full border px-3.5 py-1.5 text-sm font-semibold transition ${
+                  sport === filter.value
+                    ? 'border-brand-600 bg-brand-600 text-white'
+                    : 'border-slate-300 bg-white text-slate-600 hover:border-brand-400 hover:text-brand-700'
+                }`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-12 grid gap-4 text-left sm:grid-cols-3">
-          <article className="card p-5">
-            <span className="text-2xl" aria-hidden="true">🔐</span>
-            <h2 className="mt-3 font-bold text-slate-900">Accés segur</h2>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
-              Registre i inici de sessió gestionats amb Supabase Auth.
-            </p>
-          </article>
-          <article className="card p-5">
-            <span className="text-2xl" aria-hidden="true">📱</span>
-            <h2 className="mt-3 font-bold text-slate-900">Disseny adaptable</h2>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
-              Interfície preparada per a ordinador, tauleta i mòbil.
-            </p>
-          </article>
-          <article className="card p-5">
-            <span className="text-2xl" aria-hidden="true">⚡</span>
-            <h2 className="mt-3 font-bold text-slate-900">Sessió persistent</h2>
-            <p className="mt-1 text-sm leading-6 text-slate-600">
-              La sessió es conserva i es renova de forma automàtica.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
+        {error && <div className="mt-5"><Alert type="error">{error}</Alert></div>}
+
+        {loading ? (
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }, (_, index) => (
+              <div key={index} className="card h-52 animate-pulse bg-slate-100" />
+            ))}
+          </div>
+        ) : courts.length === 0 ? (
+          <div className="card mt-6 p-10 text-center text-slate-500">No hi ha pistes disponibles per a aquest filtre.</div>
+        ) : (
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {courts.map((court) => <CourtCard key={court.id} court={court} />)}
+          </div>
+        )}
+      </section>
+    </div>
   )
 }
