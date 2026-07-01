@@ -21,7 +21,6 @@ pnpm-debug.log*
 
 # hosting and local tools
 .vercel/
-.claude/
 
 # TypeScript
 *.tsbuildinfo
